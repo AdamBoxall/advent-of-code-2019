@@ -1,9 +1,10 @@
 (ns advent-of-code.day2
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [advent-of-code.core :as core]))
 
 (def inputs
-  (vec (map read-string (str/split (slurp (io/resource "day2.txt")) #","))))
+  (first (core/csv-resource->vec "day2.csv")))
 
 (defn evaluate [instructions]
   (reduce (fn [results [opcode noun verb position]]
@@ -23,7 +24,7 @@
     (if (= 19690720 (first (evaluate (-> inputs
                                          (assoc 1 noun)
                                          (assoc 2 verb)))))
-      (str noun verb)
+      [noun verb]
       (if-not (and (= verb 100) (= noun 100))
         (if (= verb 100)
           (recur (inc noun) 0)

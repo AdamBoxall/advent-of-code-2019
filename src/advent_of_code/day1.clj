@@ -1,9 +1,10 @@
 (ns advent-of-code.day1
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [advent-of-code.core :as core]))
 
 (def inputs
-  (map read-string (str/split-lines (slurp (io/resource "day1.txt")))))
+  (first (core/csv-resource->vec "day1.csv")))
 
 (defn mass->fuel [mass]
   (-> mass (/ 3) int (- 2)))
