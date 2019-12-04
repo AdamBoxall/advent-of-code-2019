@@ -7,17 +7,13 @@
   (first (core/csv-resource->vec "day1.csv")))
 
 (defn mass->fuel [mass]
-  (-> mass (/ 3) int (- 2)))
+  (-> mass (quot 3) (- 2)))
+
+(defn mass->total-fuel [mass]
+  (reduce + (rest (take-while pos? (iterate mass->fuel mass)))))
 
 (defn part1 []
   (reduce + (map mass->fuel inputs)))
 
 (defn part2 []
-  (reduce + (map (fn [mass]
-                   (loop [fuel (mass->fuel mass)
-                          extra (mass->fuel fuel)]
-                     (if (< extra 0)
-                       fuel
-                       (recur (+ fuel extra)
-                              (mass->fuel extra)))))
-                 inputs)))
+  (reduce + (map mass->total-fuel inputs)))
