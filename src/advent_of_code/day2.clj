@@ -20,12 +20,10 @@
   (first (evaluate inputs)))
 
 (defn part2 []
-  (loop [noun 0 verb 0]
-    (if (= 19690720 (first (evaluate (-> inputs
-                                         (assoc 1 noun)
-                                         (assoc 2 verb)))))
-      [noun verb]
-      (if-not (and (= verb 100) (= noun 100))
-        (if (= verb 100)
-          (recur (inc noun) 0)
-          (recur noun (inc verb)))))))
+  (for [noun (range 100)
+        verb (range 100)
+        :let [output (first (evaluate (-> inputs
+                                          (assoc 1 noun)
+                                          (assoc 2 verb))))]
+        :when (= 19690720 output)]
+    [noun verb]))
